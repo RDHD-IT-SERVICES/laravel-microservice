@@ -19,4 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/products', [ProductController::class, 'store'])->middleware('validate_post_request_product');
+Route::post('/add-product', [ProductController::class, 'store'])->middleware('validate_post_request_product');
+Route::post('/add-products', [ProductController::class, 'addProducts'])->middleware('validate_post_request_product');

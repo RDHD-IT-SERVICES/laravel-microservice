@@ -8,13 +8,43 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    //
+    
     public function store(Request $request)
     {
         $product = Product::create($request->all());
 
         // return response()->json($product, 201);
-        // return response()->json($product->only(['name', 'price', 'created_at']), 201);
-        return new ProductResource($product);
+        return response()->json($product->only(['name', 'price', 'created_at']), 201);
+        // return new ProductResource($product);
+    }
+
+    /**
+     * Add products from the POST request.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addProducts(Request $request)
+    {
+        $products = $request->all();
+        $createdProducts = [];
+
+        foreach ($products as $productData) {
+            $createdProducts[] = Product::create([
+                'name' => $productData['name'],
+                'price' => $productData['price'],
+            ]);
+        }
+
+        // Return a collection of ProductResource instances
+        return ProductResource::collection(collect($createdProducts))
+            ->response()
+            ->setStatusCode(201);
+    }
+
+    public function index()
+    {
+        $products = Product::all();
+        return view('products.index', compact('products'));
     }
 }

@@ -19,20 +19,19 @@ class ValidateProductRequest
     {
         // Define your validation rules here
         $rules = [
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
+            '*.name' => 'required|string|max:255',
+            '*.price' => 'required|numeric|min:0',
             // Add any other product-specific validation rules here
         ];
 
         $validator = Validator::make($request->all(), $rules);
-        
+
         if ($validator->fails()) {
-            // Return a JSON response with errors
             return response()->json([
                 'success' => false,
                 'message' => 'Validation errors',
-                'errors' => $validator->errors()
-            ], 422); // HTTP status code 422 indicates unprocessable entity
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
         return $next($request);
