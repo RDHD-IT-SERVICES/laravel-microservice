@@ -20,10 +20,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Define the API route for adding single product
-Route::post('/add-product', [ProductController::class, 'store'])->middleware('validate_post_request_product');
+Route::post('/add-product', [ProductController::class, 'store'])->middleware('validate_post_request_product')->name('route.add-product');
 
 // Define the API route for adding multiple products
-Route::post('/add-products', [ProductController::class, 'addProducts'])->middleware('validate_post_request_product');
+Route::post('/add-products', [ProductController::class, 'addProducts'])->middleware('validate_post_request_product')->name('route.add-products');
 
 // Define the API route for deleting a product
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+
+// Define the API route for deleting multiple products
+Route::post('/products/delete-multiple', [ProductController::class, 'destroyMultiple']);
+
+// Define the API route for show a single product
+Route::get('//products/{id}', [ProductController::class, 'show']);

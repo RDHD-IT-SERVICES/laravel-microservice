@@ -18,11 +18,22 @@ class ValidateProductRequest
     public function handle(Request $request, Closure $next)
     {
         // Define your validation rules here
-        $rules = [
-            '*.name' => 'required|string|max:255',
-            '*.price' => 'required|numeric|min:0',
-            // Add any other product-specific validation rules here
-        ];
+        //using the request helper to access the current route
+        if ($request->route()->getName() == 'route.add-product') {
+            $rules = [
+                'name' => 'required|string|max:255',
+                'price' => 'required|numeric|min:0',
+                // Add any other product-specific validation rules here
+            ];
+        }
+
+        if ($request->route()->getName() == 'route.add-products') {
+            $rules = [
+                '*.name' => 'required|string|max:255',
+                '*.price' => 'required|numeric|min:0',
+                // Add any other product-specific validation rules here
+            ];
+        }
 
         $validator = Validator::make($request->all(), $rules);
 

@@ -14,8 +14,8 @@ class ProductController extends Controller
         $product = Product::create($request->all());
 
         // return response()->json($product, 201);
-        return response()->json($product->only(['name', 'price', 'created_at']), 201);
-        // return new ProductResource($product);
+        // return response()->json($product->only(['name', 'price', 'created_at']), 201);
+        return new ProductResource($product);
     }
 
     /**
@@ -54,6 +54,32 @@ class ProductController extends Controller
         $product->delete();
 
         return response()->json(['message' => 'Product deleted successfully'], 200);
+    }
+
+    // New method for deleting multiple products
+    public function destroyMultiple(Request $request)
+    {
+        $ids = $request->input('ids'); // Assuming 'ids' is an array of product IDs
+
+        if (is_array($ids) && count($ids)) {
+            Product::destroy($ids); // Eloquent's destroy method can accept an array of IDs
+            return response()->json(['message' => 'Products deleted successfully'], 200);
+        }
+
+        return response()->json(['message' => 'No product IDs provided or invalid format'], 400);
+    }
+
+    // Method to show a single product
+    public function show($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        // return response()->json($product, 200);
+        return new ProductResource($product);
     }
 
     public function index()
