@@ -8,7 +8,7 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    
+
     public function store(Request $request)
     {
         $product = Product::create($request->all());
@@ -40,6 +40,20 @@ class ProductController extends Controller
         return ProductResource::collection(collect($createdProducts))
             ->response()
             ->setStatusCode(201);
+    }
+
+    // Add this method to your ProductController
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        $product->delete();
+
+        return response()->json(['message' => 'Product deleted successfully'], 200);
     }
 
     public function index()
