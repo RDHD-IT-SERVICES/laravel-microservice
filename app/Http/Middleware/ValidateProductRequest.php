@@ -35,6 +35,13 @@ class ValidateProductRequest
             ];
         }
 
+        if ($request->route()->getName() == 'route.show-multiple-products' || $request->route()->getName() == 'route.delete-multiple-products') {
+            $rules = [
+                'ids' => 'required|array',
+                'ids.*' => 'exists:products,id' // Ensure each ID in the array exists in the products table
+            ];
+        }
+
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {

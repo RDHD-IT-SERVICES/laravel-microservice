@@ -29,10 +29,13 @@ Route::post('/add-products', [ProductController::class, 'addProducts'])->middlew
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 
 // Define the API route for deleting multiple products
-Route::post('/products/delete-multiple', [ProductController::class, 'destroyMultiple']);
+Route::post('/products/delete-multiple', [ProductController::class, 'destroyMultiple'])->middleware('validate_post_request_product')->name('route.delete-multiple-products');
 
 // Define the API route for show a single product
 Route::get('/products/{id}', [ProductController::class, 'show']);
+
+// Define the API route for displaying multiple products
+Route::post('/products/show-multiple', [ProductController::class, 'showMultiple'])->middleware('validate_post_request_product')->name('route.show-multiple-products');
 
 // Define the API route for listing all products
 Route::get('/products', [ProductController::class, 'showAll']);

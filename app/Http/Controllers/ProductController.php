@@ -82,10 +82,15 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
-    // Method to show multiple products
     public function showMultiple(Request $request)
     {
+        $ids = $request->input('ids');
 
+        // Retrieve products that match the given IDs
+        $products = Product::findMany($ids);
+
+        // Wrap the products in the ProductResource, if you want to use resource for formatting
+        return ProductResource::collection($products);
     }
 
     // Api method to list all products
