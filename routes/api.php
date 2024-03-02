@@ -32,4 +32,7 @@ Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 Route::post('/products/delete-multiple', [ProductController::class, 'destroyMultiple']);
 
 // Define the API route for show a single product
-Route::get('//products/{id}', [ProductController::class, 'show']);
+Route::get('/products/{id}', [ProductController::class, 'show']);
+
+// Define the API route for listing all products
+Route::get('/products', [ProductController::class, 'showAll']);

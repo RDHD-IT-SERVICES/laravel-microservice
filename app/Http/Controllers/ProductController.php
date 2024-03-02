@@ -82,6 +82,19 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
+    // Method to show multiple products
+    public function showMultiple(Request $request)
+    {
+
+    }
+
+    // Api method to list all products
+    public function showAll()
+    { 
+        $products = Product::all();
+        return ProductResource::collection($products);
+    }
+
     public function index()
     {
         $products = Product::all();
